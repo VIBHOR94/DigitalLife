@@ -1,0 +1,131 @@
+<%person=PersonDetail.find_by(user_id: current_user.id)%>
+<%if person.nil?%>
+	<%=link_to "Create New Detail",new_person_detail_path%>
+<%else%>
+<div class="row">
+		<div class="col-sm-2"> <%= image_tag(person.profilepic.url ,size: "168x174") %></div>
+  <div class="col-sm-5">
+		<h3>Personal Detail</h3>
+		Name -<%=person.name%><br/>
+		Sex -<%=person.sex%> <br/>
+		Date of birth -<%=person.date_of_birth.strftime('%d-%B-%Y')%><br/>
+		Address -<%=person.address%><br/>
+		Contact Number -<%=person.contact_number%><br/>
+		Country -<%=person.country%><br/>
+  </div>
+  <div class="col-sm-5">
+	<h3>Medical Detail</h3>
+	<%medical=MedicalDetail.find_by(person_detail_id: person.id)%>
+		<%if medical.nil?%>
+			<%=link_to "Create New Detail",new_medical_detail_path%>
+		<%else%>
+				Blood Group -<%=medical.blood_group%><br /> 
+				Family Doctor Name -<%=medical.family_doctor_name%><br />
+				Family Doctor Number -<%=medical.family_doctor_number%><br />
+		<%end%>
+  </div>
+ </div>
+	<center><h3>Education Details</h3>
+	<%educationdetails=EducationDetail.where('person_detail_id=?',person.id)%>
+		<%if educationdetails.empty?%>
+			<%=link_to "Create Education Detail",new_education_detail_path%>
+		<%else%>
+			<table border='1'>
+				<thead>
+					<tr>
+					<th>Sl No.</th>
+					<th><center>Institution</center></th>
+					<th><center>Board/University</center></th>
+					<th><center>Percentage/CGPA</center></th>
+					<th><center>Year</center></th>
+					<th><center>Certificate Title</center></th>
+					<th><center>Action</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<%educationdetails.each.with_index(1) do |educationdetail,index|%>
+						<tr>
+					    <td><center><%=index%></center></td>
+						<td><center><%=educationdetail.institution_name%></center></td>
+						<td><center><%=educationdetail.board_or_university_name%></center></td>
+						<td><center><%=educationdetail.percentage_or_cgpa%></center></td>
+						<td><center><%=educationdetail.year_of_passing%></center></td>
+						<td><center><%=educationdetail.certificate_type_name%></center></td>
+						<td><center><%=link_to "Update",edit_education_detail_path(educationdetail.id)%> | <%=link_to "Delete",education_detail_path(educationdetail.id),:method => 'delete' %></center></td>
+						</tr>
+					<%end%>
+				</tbody>
+			</table>
+		<%end%><br />
+		<h3>Transactions in current month</h3>
+		</center>
+<div class="row">
+  <div class="col-sm-6">
+		<h3>Incomes</h3>
+		<%incomes=Income.where('person_detail_id=?',person.id).where('date >=? and date<=?',Date.today.beginning_of_month,Date.today.end_of_month)%>
+		<%if incomes.empty?%>
+			<%="No record found"%> 
+		<%else%>
+			<table border='1'>
+			<thead>
+				<tr>
+				<th><center>Sl. No.</center></th>
+				<th><center>Type</center></th>
+				<th><center>Recieved In</center></th>
+				<th><center>Amount</center></th>
+				<th><center>Date</center></th>
+				<th><center>Action</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				<%incomes.each.with_index(1) do |income,index|%>
+					<tr>
+			    	<td><center><%=index%></center></td>
+					<td><center><%=Type.find(income.type_id).name%></center></td>
+					<td><center><%=income.recieved_in%></center></td>
+					<td><center><%=income.amount%></center></td>
+					<td><center><%=income.date%></center></td>
+					<td><center><%=link_to "Update",edit_income_path(income.id)%> | <%=link_to "Delete",income_path(income.id),:method => 'delete'%></center></td>
+					</tr>
+				<%end%>
+			</tbody>
+			</table>
+  			<h3>Total income : <%=incomes.pluck(:amount).sum%></h3>
+		<%end%>
+		<%=link_to "View all incomes",incomes_path%><br />
+  </div>
+  <div class="col-sm-6">
+		<h3>Expenses</h3>
+		<%expenditures=Expenditure.where('person_detail_id=?',person.id).where('date >=? and date<=?',Date.today.beginning_of_month,Date.today.end_of_month)%>
+		<%if expenditures.empty?%>
+			<%="No record found."%> 
+		<%else%>
+			<table border='1'>
+				<thead>
+					<tr>
+					<th><center>Sl No.</center></th>
+					<th><center>Type</center></th>
+					<th><center>Payment Method</center></th>
+					<th><center>Amount</center></th>
+					<th><center>Date</center></th>
+					<th><center>Action</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<%expenditures.each.with_index(1) do |expenditure,index|%>
+						<tr>
+					    <td><center><%=index%></center></td>
+						<td><center><%=Type.find(expenditure.type_id).name%></center></td>
+						<td><center><%=expenditure.payment_method%></center></td>
+						<td><center><%=expenditure.amount%></center></td>
+						<td><center><%=expenditure.date%></center></td>
+						<td><center><%=link_to "Update",edit_expenditure_path(expenditure.id)%> | <%=link_to "Delete",expenditure_path(expenditure.id),:method => 'delete'%></center></td>
+						</tr>
+					<%end%>
+				</tbody>
+			</table>
+			<h3>Total expenditure : <%=expenditures.pluck(:amount).sum%></h3>
+		<%end%>
+		<%=link_to "View all expenditure",expenditures_path%>
+  </div>
+<%end%>

@@ -1,0 +1,14 @@
+<h1>Edit Type Detail</h1>
+<%= form_for @type do |f|%>
+	<%if @type.errors.any? %>
+		<h4>These erros prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @type.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<h4><%="Name : "%><%=f.text_field :name %><br /></h4>
+	<%=f.submit%>
+<%end%>

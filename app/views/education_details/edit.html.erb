@@ -1,0 +1,19 @@
+<h1>Edit Education Detail</h1>
+<%= form_for @educationdetail do |f|%>
+	<%if @educationdetail.errors.any? %>
+		<h4>These erros prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @educationdetail.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<h4>
+	<%="Institution Name : "%><%=f.text_field :institution_name %><br />
+	<%="Certificate : "%><%=f.text_field :certificate_type_name %><br />
+	<%="Board/University : "%><%=f.text_field :board_or_university_name %><br />
+	<%="Percentage/CGPA : "%><%=f.text_field :percentage_or_cgpa %><br />
+	<%="Year Of Passing: "%><%=f.text_field :year_of_passing %><br /></h4>
+	<%=f.submit%>
+<%end%>

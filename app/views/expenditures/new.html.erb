@@ -1,0 +1,18 @@
+<h1>Add Expenditure Detail</h1>
+<%= form_for @expenditure do |f|%> 
+	<%if @expenditure.errors.any? %>
+		<h4>These errors prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @expenditure.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<%=f.hidden_field :person_detail_id, :value => PersonDetail.find_by(user_id: current_user.id).id%>
+	<%="Type  : "%><%= f.collection_select :type_id, Type.all,:id,:name%><br />
+	<%="Payment Method : "%><%= f.select :payment_method,options_for_select([['CASH','CASH'],['CHEQUE','CHEQUE'],['CREDIT CARD','CREDIT CARD'],['DEBIT CARD','DEBIT CARD']])%><br />
+	<%="Amount : "%><%=f.text_field :amount %><br />
+	<%="Date : "%><%=f.date_field :date %><br />
+	<%=f.submit%>
+<%end%>

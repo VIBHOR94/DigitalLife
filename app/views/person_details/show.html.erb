@@ -1,0 +1,26 @@
+<h2>Detail about the person</h2><br />  
+<table border='1'>
+		<thead>
+			<tr>
+			<th>Name</th>
+			<th>Sex</th>
+			<th>Date of birth</th>
+			<th>Address</th>
+			<th>Contact Number</th>
+			<th>Country</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><%=@persondetail.name%></td>
+				<td><%=@persondetail.sex%></td>
+				<td><%=@persondetail.date_of_birth%></td>
+				<td><%=@persondetail.address%></td>
+				<td><%=@persondetail.contact_number%></td>
+				<td><%=@persondetail.country%></td>
+			</tr>
+		</tbody>
+</table>
+<%=link_to "Update detail",edit_person_detail_path(@persondetail.id)%> <br /><br />
+
+

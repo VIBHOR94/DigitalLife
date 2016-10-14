@@ -1,0 +1,33 @@
+<%=link_to "Create new detail",new_education_detail_path%> 
+<h3>Listing all Education details in database</h3>
+<%educationdetails=EducationDetail.all%>
+<%if educationdetails.empty?%>
+	<%="Empty database."%>
+<%else%>
+	<table border='1'>
+		<thead>
+			<tr>
+			<th>Sl No.</th>
+			<th>Person Name</th>
+			<th>Institution</th>
+			<th>Board/University</th>
+			<th>Percentage/CGPA</th>
+			<th>Year</th>
+			<th>Certificate Title</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%educationdetails.each.with_index(1) do |educationdetail,index|%>
+				<tr>
+			    <td><%=index%></td>
+				<td><%=link_to PersonDetail.find(educationdetail.person_detail_id).name,person_detail_path(educationdetail.person_detail_id)%></td>
+				<td><%=educationdetail.institution_name%></td>
+				<td><%=educationdetail.board_or_university_name%></td>
+				<td><%=educationdetail.percentage_or_cgpa%></td>
+				<td><%=educationdetail.year_of_passing%></td>
+				<td><%=educationdetail.certificate_type_name%></td>
+				</tr>
+			<%end%>
+		</tbody>
+	</table>
+<%end%>

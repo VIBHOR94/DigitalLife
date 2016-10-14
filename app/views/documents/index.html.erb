@@ -1,0 +1,28 @@
+<h3>Listing all Documents</h3>
+<%docs=Document.where('person_detail_id = ?',(PersonDetail.find_by(user_id: current_user.id).id))%>
+<%if not(docs.empty?)%>
+	<table border='1'>
+		<thead>
+		<tr>
+			<th>Sl. No.</th>
+			<th>Title</th>
+			<th>Category</th>
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			<%docs.order(:category_id ).each.with_index(1) do |doc,index|%>
+			<tr>
+			   	<td><%=index%></td>
+				<td><%=doc.title%></td>
+				<td><%=Category.find(doc.category_id).name%></td>
+				<td><%=link_to "Show",document_path(doc.id)%> | <%=link_to "Update",edit_document_path(doc.id)%> | <%=link_to "Delete",document_path(doc.id),:method => 'delete'%> </td>
+			</tr>
+			<%end%>
+		</tbody>
+		</table>
+<h3>Total Documents - <%=docs.size%></h3>
+<%else%>
+	<%="No Document found"%><br />
+<%end%>
+<%=link_to "Create a new Docoment",new_document_path%>

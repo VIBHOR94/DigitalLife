@@ -1,0 +1,29 @@
+<%=link_to "Create new detail",new_medical_detail_path%> 
+<h3>Listing all medical details in database</h3>
+<%medicaldetails=MedicalDetail.all%>
+<%if medicaldetails.empty?%>
+	<%="Empty database."%>
+<%else%>
+	<table border='1'>
+		<thead>
+			<tr>
+			<th>Sl No.</th>
+			<th>Person Name</th>
+			<th>Blood Group</th>
+			<th>Family Doctor Name</th>
+			<th>Family Doctor Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%medicaldetails.each.with_index(1) do |mdetail,index|%>
+			<tr>
+			    <td><%=index%></td>
+				<td><%=link_to PersonDetail.find(mdetail.person_detail_id).name,medical_detail_path(mdetail.id)%></td>
+				<td><%=mdetail.blood_group%></td>
+				<td><%=mdetail.family_doctor_name%></td>
+				<td><%=mdetail.family_doctor_number%></td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+<%end%>

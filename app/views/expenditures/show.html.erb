@@ -1,0 +1,28 @@
+<h2>Detail of all the expenses of the selected type <%=Type.find(@expenditure.type_id).name%></h2><br />  
+<table border='1'>
+		<thead>
+			<tr>
+			<th>Payment Method</th>
+			<th>Amount</th>
+			<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+		<%typeexpenses=Expenditure.where('person_detail_id=? and type_id=?',@expenditure.person_detail_id,@expenditure.type_id)%>
+			<%typeexpenses.all.each do |typeexpense|%>
+				<tr>
+				<td><%=typeexpense.payment_method%></td>
+				<td><%=typeexpense.amount%></td>
+				<td><%=typeexpense.date%></td>
+				</tr>
+			<%end%>
+			<%t=typeexpenses.where('date >= ? and date <= ?',Date.today.beginning_of_month - 12.month,Date.today)%><br />
+		</tbody>
+</table>
+<h3>Total expenditure in current month :</h3><br />
+	
+From this type = <%=t.where('date >= ?',Date.today.beginning_of_month).pluck(:amount).sum%><br />
+	
+<h3>Total expenditure in current year :</h3><br />
+
+From this type = <%=t.where('date >= ?',Date.today - 12.month).pluck(:amount).sum%><br />

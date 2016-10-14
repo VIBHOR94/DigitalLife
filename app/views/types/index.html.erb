@@ -1,0 +1,24 @@
+<%=link_to "Create new detail",new_type_path%> 
+<h3>Listing all Types in database</h3>
+<%types=Type.all%>
+<%if types.empty?%>
+	<%="No Type Found"%>
+<%else%>
+	<table border='1'>
+		<thead>
+			<tr>
+			<th>Sl No.</th>
+			<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%types.each.with_index(1) do |type,index|%>
+				<tr>
+			    <td><%=index%></td>
+				<td><%=type.name%></td>
+				</tr>
+			<%end%>
+		</tbody>
+	</table>
+<%end%>
+<%=link_to "Create New Type",new_type_path%>

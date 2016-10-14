@@ -1,0 +1,17 @@
+<h1>Edit Income Detail</h1>
+<%= form_for @income do |f|%>
+	<%if @income.errors.any? %>
+		<h4>These erros prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @income.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<h4><%="Type : "%><%= f.collection_select :type_id, Type.all,:id,:name%><br />
+	<%="Recieved in  : "%><%= f.select :recieved_in,options_for_select([['CASH','CASH'],['CHEQUE','CHEQUE'],['CREDIT CARD','CREDIT CARD'],['DEBIT CARD','DEBIT CARD']])%><br />
+	<%="Amount : "%><%=f.text_field :amount %><br />
+	<%="Date : "%><%=f.date_field :date %><br /></h4>
+	<%=f.submit%>
+<%end%>

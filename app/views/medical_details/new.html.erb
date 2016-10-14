@@ -1,0 +1,17 @@
+<h1>Add Medical Detail</h1>
+<%= form_for @medicaldetail do |f|%>
+	<%if @medicaldetail.errors.any? %>
+		<h4>These errors prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @medicaldetail.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<h4><%=f.hidden_field :person_detail_id, :value => PersonDetail.find_by(user_id: current_user.id).id %><br />
+	<%="Blood Group : "%><%=f.select :blood_group ,options_for_select([["A+","A+"],["A-","A-"],["B+","B+"],["B-","B-"],["O+","O+"],["O-","O-"],["AB+","AB+"],["AB-","AB-"]])%><br />
+	<%="Family Doctor Name : "%><%=f.text_field :family_doctor_name %><br />
+	<%="Family Doctor Number : "%><%=f.text_field :family_doctor_number %><br />
+	<%=f.submit%>
+<%end%>

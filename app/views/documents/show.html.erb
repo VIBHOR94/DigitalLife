@@ -1,0 +1,4 @@
+<label>Title </label>- <%=@document.title%><br />
+<label>Category</label> - <%=Category.find(@document.category_id).name%><br />
+<label>Picture </label>- <%= image_tag(@document.picture.url)%><br /><%=link_to "    Back",:back%>
+

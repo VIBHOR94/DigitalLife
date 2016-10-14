@@ -1,0 +1,20 @@
+<h2>Medical information about the person</h2><br />  
+<table border='1'>
+		<thead>
+			<tr>
+			<th>Name</th>
+			<th>Blood Group</th>
+			<th>Family Doctor Name</th>
+			<th>Family Doctor Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><%=PersonDetail.find(@medicaldetail.person_detail_id).name%></td>
+				<td><%=@medicaldetail.blood_group%></td>
+				<td><%=@medicaldetail.family_doctor_name%></td>
+				<td><%=@medicaldetail.family_doctor_number%></td>
+			</tr>
+		</tbody>
+</table>
+<%=link_to "Update detail",edit_medical_detail_path(@medicaldetail.id)%> 

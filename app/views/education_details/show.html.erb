@@ -1,0 +1,24 @@
+<h2>Detail about the Education</h2><br />  
+<table border='1'>
+		<thead>
+			<tr>
+			<th>Name</th>
+			<th>Institution Name</th>
+			<th>Certificate Title</th>
+			<th>Board or University</th>
+			<th>Percentage / CGPA</th>
+			<th>Year</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			    <td><%=PersonDetail.find(@educationdetail.person_detail_id).name%></td>
+				<td><%=@educationdetail.institution_name%></td>
+				<td><%=@educationdetail.certificate_type_name%></td>
+				<td><%=@educationdetail.board_or_university_name%></td>
+				<td><%=@educationdetail.percentage_or_cgpa%></td>
+				<td><%=@educationdetail.year_of_passing%></td>
+			</tr>
+		</tbody>
+</table>
+<%=link_to "Update detail",edit_education_detail_path(@educationdetail.id)%> 

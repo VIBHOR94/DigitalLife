@@ -1,0 +1,17 @@
+<h1>Add Document Detail</h1>
+<%= form_for @document do |f|%> 
+	<%if @document.errors.any? %>
+		<h4>These errors prvented the form from being saved.</h4>
+		<ul style="color:red">
+			<% @document.errors.full_messages.each do |msg| %>
+				<li><%=msg %></li>
+			<%end%>
+		</ul>
+	<%end%>  
+
+	<%=f.hidden_field :person_detail_id, :value => PersonDetail.find_by(user_id: current_user.id).id%>
+	<%="Title : "%><%=f.text_field :title %><br />
+	<%="Category  : "%><%= f.collection_select :category_id, Category.all,:id,:name%><br />
+	<%=f.file_field :picture,html: {multipart: true}%>
+	<%=f.submit%>
+<%end%>

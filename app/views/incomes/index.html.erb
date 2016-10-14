@@ -1,0 +1,59 @@
+<b><center><h3>One Year Incomes</h3></b></center><br/>
+<%incomes=Income.where('person_detail_id = ?',(PersonDetail.find_by(user_id: current_user.id).id)).where('date >=? and date<=?',Date.today.beginning_of_month - 12.month,Date.today)%>
+<div class="row">
+	<%currentdate=Date.today.beginning_of_month - 12.month%>
+	<%while currentdate <= Date.today %>
+		<%(monthlyincomes=incomes.where('date>=? and date<=?',currentdate,currentdate.end_of_month))%>
+	<div class="col-md-6">
+			<table border='1'>
+				<thead>
+					<tr>
+					<th>Sl. No.</th>
+					<th>Type</th>
+					<th>Recieved In</th>
+					<th>Amount</th>
+					<th>Date</th>
+					<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%=currentdate.strftime("%B  %Y")%>
+					<%monthlyincomes.order(:date ).each.with_index(1) do |income,index|%>
+						<tr>
+					    <td><%=index%></td>
+						<td><%=Type.find(income.type_id).name%></td>
+						<td><%=income.recieved_in%></td>
+						<td><%=income.amount%></td>
+						<td><%=income.date%></td>
+						<td><%=link_to "Update",edit_income_path(income.id)%> | <%=link_to "Delete",income_path(income.id),:method => 'delete'%></td>
+						</tr>
+					<%end%>
+					Income = <%=monthlyincomes.pluck(:amount).sum%>
+					<%currentdate+=1.month%>
+					<hr>
+				</tbody>
+			</table>
+	</div>
+	<div class="col-md-6">
+	<%t=Hash.new%>
+	<%monthlyincomes.pluck(:type_id).uniq.each do |onetype|%>
+			<%t.update(Type.find(onetype).name => monthlyincomes.where('type_id=?',onetype).pluck(:amount).sum)%>
+	<%end%>
+	<%= pie_chart t%>
+	</div>
+<%end%></div>
+<div class="row">
+	<div class="col-md-6">
+	<%types=incomes.all.pluck(:type_id).uniq%>
+	<h2>Total Yearly Income = Rs <%=incomes.pluck(:amount).sum%> -/</h2>
+	<%types.each do |type|%>
+		<%=link_to Type.find(type).name,income_path(Income.find_by(type_id: type).id)%> : <%=incomes.where("type_id=?",type).pluck(:amount).sum%><br />
+	<%end%></div>
+	<div class="col-md-6">
+		<%a=Hash.new%>
+		<%incomes.pluck(:type_id).uniq.each do |onetype|%>
+			<%a.update(Type.find(onetype).name => incomes.where('type_id=?',onetype).pluck(:amount).sum)%>
+	<%end%>
+	<%= pie_chart a%>
+	</div>
+</div>
